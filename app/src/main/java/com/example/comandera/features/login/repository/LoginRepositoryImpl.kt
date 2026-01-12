@@ -19,9 +19,18 @@ class LoginRepositoryImpl(
 
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 if (!response.isSuccessful) {
-                    callback(LoginResult.Error("Usuario o clave incorrectos"))
+                    val msg = try {
+                        val raw = response.errorBody()?.string()
+                        if (raw.isNullOrBlank()) "Usuario o clave incorrectos"
+                        else org.json.JSONObject(raw).optString("detail", "Usuario o clave incorrectos")
+                    } catch (_: Exception) {
+                        "Usuario o clave incorrectos"
+                    }
+
+                    callback(LoginResult.Error(msg))
                     return
                 }
+
 
                 val body = response.body()
                 val access = body?.accessToken

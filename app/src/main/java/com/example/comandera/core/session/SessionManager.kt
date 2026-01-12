@@ -5,11 +5,12 @@ import android.content.Context
 class SessionManager(context: Context) {
     private val prefs = context.getSharedPreferences("session", Context.MODE_PRIVATE)
 
-    fun saveToken(token: String) {
+    fun saveAccessToken(token: String) {
         prefs.edit().putString("access_token", token).apply()
     }
 
-    fun getAccessToken(): String? = prefs.getString("access_token", null)
+    fun getAccessToken(): String? =
+        prefs.getString("access_token", null)
 
     fun saveRefreshToken(token: String) {
         prefs.edit().putString("refresh_token", token).apply()

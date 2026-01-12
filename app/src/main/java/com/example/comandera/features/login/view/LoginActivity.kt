@@ -40,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
         val etClave = findViewById<EditText>(R.id.etClave)
         val btnLogin = findViewById<Button>(R.id.btnLogin)
 
-        // 🔹 OBSERVAR ESTADO (TIPO EXPLÍCITO)
+        // OBSERVAR ESTADO DEL LOGIN
         viewModel.state.observe(this) { state: LoginUiState ->
 
             // Bloquea botón mientras carga
@@ -57,7 +57,7 @@ class LoginActivity : AppCompatActivity() {
                 val success = viewModel.getLastSuccess()
 
                 if (success != null) {
-                    session.saveToken(success.accessToken)
+                    session.saveAccessToken(success.accessToken)
                     success.refreshToken?.let { session.saveRefreshToken(it) }
                     success.idUsuario?.let { session.saveIdUsuario(it) }
                     success.idLocal?.let { session.saveIdLocal(it) }
