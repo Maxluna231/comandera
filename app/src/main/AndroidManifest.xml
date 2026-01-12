@@ -13,10 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Comandera">
-        <activity android:name=".MesasActivity"
+        <activity android:name=".features.mesas.view.MesasActivity"
             tools:ignore="Instantiatable" />
         <activity
-            android:name="LoginActivity"
+            android:name=".features.login.view.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

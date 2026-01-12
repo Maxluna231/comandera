@@ -1,6 +1,8 @@
-package com.example.comandera
-import androidx.appcompat.app.AppCompatActivity
+package com.example.comandera.features.mesas.view
+
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.example.comandera.R
 
 class MesasActivity : AppCompatActivity() {
 
