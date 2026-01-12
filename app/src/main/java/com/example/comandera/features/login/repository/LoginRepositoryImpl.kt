@@ -1,5 +1,6 @@
 package com.example.comandera.features.login.repository
 
+import android.util.Log
 import com.example.comandera.core.network.services.LoginService
 import com.example.comandera.features.login.model.LoginRequest
 import com.example.comandera.features.login.model.LoginResponse
@@ -7,6 +8,7 @@ import com.example.comandera.features.login.model.LoginResult
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.math.log
 
 class LoginRepositoryImpl(
     private val service: LoginService
@@ -14,13 +16,17 @@ class LoginRepositoryImpl(
 
     override fun login(numeroEmpleado: String, clave: String, callback: (LoginResult) -> Unit) {
         val request = LoginRequest(numero_empleado = numeroEmpleado, clave = clave)
+        Log.d("Login Request", "Request: $request")
 
         service.login(request).enqueue(object : Callback<LoginResponse> {
 
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                Log.d("Login Response", "Response: ${response.body()}")
+
                 if (!response.isSuccessful) {
                     val msg = try {
                         val raw = response.errorBody()?.string()
+                        Log.d("Login Error", "Error: $raw")
                         if (raw.isNullOrBlank()) "Usuario o clave incorrectos"
                         else org.json.JSONObject(raw).optString("detail", "Usuario o clave incorrectos")
                     } catch (_: Exception) {
@@ -33,7 +39,10 @@ class LoginRepositoryImpl(
 
 
                 val body = response.body()
+                //Log.d("Login Body", "Body: $body")
+
                 val access = body?.accessToken
+
 
                 if (access.isNullOrBlank()) {
                     callback(LoginResult.Error("Access token vacío"))
